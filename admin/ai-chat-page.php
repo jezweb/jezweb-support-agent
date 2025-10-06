@@ -53,10 +53,13 @@ function jezweb_support_enqueue_chat_scripts($hook) {
         $site_id = sanitize_title(get_bloginfo('name'));
     }
 
+    // Worker URL is hard-coded (same for all sites)
+    define('JEZWEB_WORKER_URL', 'https://jezweb-support-agent.webfonts.workers.dev');
+
     wp_localize_script('jezweb-chat-app', 'wpData', array(
         'siteUrl' => get_site_url(),
         'siteName' => get_bloginfo('name'),
-        'workerUrl' => get_option('jezweb_agent_url', 'https://jezweb-support-agent.webfonts.workers.dev'),
+        'workerUrl' => JEZWEB_WORKER_URL,
         'siteId' => $site_id,
         'restUrl' => rest_url('jezweb/v1/'),
         'nonce' => wp_create_nonce('wp_rest')
@@ -65,23 +68,8 @@ function jezweb_support_enqueue_chat_scripts($hook) {
 
 // Render the chat page
 function jezweb_support_render_chat_page() {
-    $worker_url = get_option('jezweb_agent_url', 'https://jezweb-support-agent.webfonts.workers.dev');
-
-    // Check if worker URL looks like the default (might not be configured)
-    $needs_config = ($worker_url === 'https://support.jezweb.workers.dev' || empty($worker_url));
-
     ?>
     <div class="wrap" style="margin: 0; padding: 0;">
-        <?php if ($needs_config): ?>
-            <div class="notice notice-info" style="margin: 20px;">
-                <p>
-                    <strong>First Time Setup:</strong>
-                    Configure the Worker URL in
-                    <a href="<?php echo admin_url('options-general.php?page=jezweb-support'); ?>">Settings → Jezweb Support</a>
-                    for full AI features. (Site ID is optional and auto-generated)
-                </p>
-            </div>
-        <?php endif; ?>
 
         <!-- React app mounts here -->
         <div id="root"></div>

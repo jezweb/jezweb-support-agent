@@ -23,7 +23,7 @@ function jezweb_support_add_settings_page() {
 add_action('admin_init', 'jezweb_support_register_settings');
 function jezweb_support_register_settings() {
     register_setting('jezweb_support_options', 'jezweb_site_id');
-    register_setting('jezweb_support_options', 'jezweb_agent_url');
+    // Note: Worker URL is hard-coded in the plugin (same for all sites)
 }
 
 // Render settings page
@@ -72,19 +72,11 @@ function jezweb_support_render_settings_page() {
                     </tr>
 
                     <tr>
-                        <th scope="row">
-                            <label for="jezweb_agent_url">Agent URL</label>
-                        </th>
+                        <th scope="row">Worker URL</th>
                         <td>
-                            <input
-                                type="url"
-                                id="jezweb_agent_url"
-                                name="jezweb_agent_url"
-                                value="<?php echo esc_attr(get_option('jezweb_agent_url', 'https://support.jezweb.workers.dev')); ?>"
-                                class="regular-text"
-                            />
+                            <code style="background: #f0f0f1; padding: 5px 10px; display: inline-block;">https://jezweb-support-agent.webfonts.workers.dev</code>
                             <p class="description">
-                                URL of the Cloudflare Agent endpoint
+                                The Cloudflare Worker URL is hard-coded in the plugin (same for all sites). No configuration needed!
                             </p>
                         </td>
                     </tr>
