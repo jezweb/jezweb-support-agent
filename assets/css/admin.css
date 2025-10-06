@@ -1,0 +1,17 @@
+/* Jezweb Support Agent - Admin Styles */
+
+.jezweb-support-settings {
+    max-width: 1200px;
+}
+
+.jezweb-support-settings .form-table th {
+    font-weight: 600;
+}
+
+.jezweb-api-endpoint {
+    font-family: monospace;
+    background: #f0f0f1;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 13px;
+}
