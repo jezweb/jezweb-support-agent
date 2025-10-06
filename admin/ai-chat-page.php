@@ -47,11 +47,17 @@ function jezweb_support_enqueue_chat_scripts($hook) {
     );
 
     // Pass WordPress data to React app
+    // Site ID is auto-generated from site URL for Durable Object namespace
+    $site_id = get_option('jezweb_site_id', sanitize_title(get_bloginfo('name')));
+    if (empty($site_id)) {
+        $site_id = sanitize_title(get_bloginfo('name'));
+    }
+
     wp_localize_script('jezweb-chat-app', 'wpData', array(
         'siteUrl' => get_site_url(),
         'siteName' => get_bloginfo('name'),
         'workerUrl' => get_option('jezweb_agent_url', 'https://jezweb-support-agent.webfonts.workers.dev'),
-        'siteId' => get_option('jezweb_site_id', sanitize_title(get_bloginfo('name'))),
+        'siteId' => $site_id,
         'restUrl' => rest_url('jezweb/v1/'),
         'nonce' => wp_create_nonce('wp_rest')
     ));
@@ -60,17 +66,19 @@ function jezweb_support_enqueue_chat_scripts($hook) {
 // Render the chat page
 function jezweb_support_render_chat_page() {
     $worker_url = get_option('jezweb_agent_url', 'https://jezweb-support-agent.webfonts.workers.dev');
-    $site_id = get_option('jezweb_site_id', '');
+
+    // Check if worker URL looks like the default (might not be configured)
+    $needs_config = ($worker_url === 'https://support.jezweb.workers.dev' || empty($worker_url));
 
     ?>
     <div class="wrap" style="margin: 0; padding: 0;">
-        <?php if (empty($site_id)): ?>
-            <div class="notice notice-warning" style="margin: 20px;">
+        <?php if ($needs_config): ?>
+            <div class="notice notice-info" style="margin: 20px;">
                 <p>
-                    <strong>Configuration Required:</strong>
-                    Please configure your Site ID in
+                    <strong>First Time Setup:</strong>
+                    Configure the Worker URL in
                     <a href="<?php echo admin_url('options-general.php?page=jezweb-support'); ?>">Settings → Jezweb Support</a>
-                    to enable AI features.
+                    for full AI features. (Site ID is optional and auto-generated)
                 </p>
             </div>
         <?php endif; ?>

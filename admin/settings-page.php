@@ -54,7 +54,7 @@ function jezweb_support_render_settings_page() {
                 <table class="form-table">
                     <tr>
                         <th scope="row">
-                            <label for="jezweb_site_id">Site ID</label>
+                            <label for="jezweb_site_id">Site ID <em>(Optional)</em></label>
                         </th>
                         <td>
                             <input
@@ -63,9 +63,10 @@ function jezweb_support_render_settings_page() {
                                 name="jezweb_site_id"
                                 value="<?php echo esc_attr(get_option('jezweb_site_id', '')); ?>"
                                 class="regular-text"
+                                placeholder="<?php echo esc_attr(sanitize_title(get_bloginfo('name'))); ?>"
                             />
                             <p class="description">
-                                Unique identifier for this site (e.g., newcastleseo.com.au)
+                                Optional identifier for Durable Object namespace. Leave blank to auto-generate from site name: <code><?php echo esc_html(sanitize_title(get_bloginfo('name'))); ?></code>
                             </p>
                         </td>
                     </tr>
