@@ -8,11 +8,12 @@ This plugin is designed to work with a Cloudflare Agent (AI assistant) to provid
 
 ## Features
 
+- ✅ **AI Chat in WordPress Admin** - Full React chat app embedded in admin (NEW!)
 - ✅ **Complete Site Knowledge Export** - Pages, posts, plugins, theme, menus
 - ✅ **Elementor Structure Parser** - Deep understanding of Elementor page layouts
 - ✅ **Navigation Guides** - Human-readable paths to edit any element
 - ✅ **Editable Content Mapping** - All editable content mapped to widget IDs
-- ✅ **Built-in Chat Widget** - Support chat for logged-in users
+- ✅ **Plugin-Specific Guidance** - Context-aware help for Gravity Forms, WooCommerce, etc.
 - ✅ **Admin Settings Page** - Easy configuration and API testing
 
 ## REST API Endpoints
@@ -60,6 +61,31 @@ All installed plugins with:
 ### `/wp-json/jezweb/v1/theme-info`
 Active theme information
 
+## Using AI Chat in WordPress Admin
+
+### Accessing the Chat
+
+1. Look for **AI Support** in the WordPress admin sidebar (with chat icon 💬)
+2. Click to open the full-page AI chat interface
+3. The chat automatically knows your site URL and configuration
+
+### What You Can Ask
+
+- **Page Editing**: "How do I change the hero heading on my homepage?"
+- **Plugin Questions**: "What plugins are currently active?"
+- **Navigation**: "What pages are in the main menu?"
+- **Elementor**: "What are the global colors defined?"
+- **Forms**: "Where can I view form submissions?"
+- **General**: "How do I add a new section to a page?"
+
+### Features
+
+- ✅ Automatically configured with your site URL
+- ✅ Pre-loaded with site knowledge
+- ✅ Plugin-aware (knows about Gravity Forms, WooCommerce, etc.)
+- ✅ Elementor design system integration
+- ✅ Native WordPress admin styling
+
 ## Installation
 
 See [INSTALLATION.md](INSTALLATION.md) for detailed setup instructions.
@@ -68,6 +94,7 @@ See [INSTALLATION.md](INSTALLATION.md) for detailed setup instructions.
 1. Upload `jezweb-support` folder to `/wp-content/plugins/`
 2. Activate via Plugins menu
 3. Configure in Settings → Jezweb Support
+4. Click **AI Support** in admin sidebar to start chatting!
 
 ## How It Works
 
@@ -133,10 +160,13 @@ jezweb-support/
 ├── includes/
 │   ├── class-rest-api.php          # REST endpoint handlers
 │   ├── class-elementor-parser.php  # Elementor JSON parser
-│   └── class-chat-widget.php       # Chat widget renderer
+│   └── class-chat-widget.php       # Chat widget renderer (legacy)
 ├── admin/
-│   └── settings-page.php           # Admin settings UI
+│   ├── settings-page.php           # Admin settings UI
+│   └── ai-chat-page.php            # AI chat admin page (NEW!)
 ├── assets/
+│   ├── chat-app.js                 # React chat app (built) (NEW!)
+│   ├── chat-app.css                # React app styles (NEW!)
 │   ├── css/admin.css
 │   └── js/admin.js
 ├── README.md
@@ -163,6 +193,31 @@ case 'your-widget-type':
     $content['your_field'] = isset($settings['your_field']) ? $settings['your_field'] : '';
     break;
 ```
+
+### Updating the React Chat App
+
+When the React chat app is updated in the Cloudflare Worker project:
+
+```bash
+# 1. Navigate to Cloudflare Worker project
+cd /path/to/cloudflare-support-agent
+
+# 2. Rebuild React app
+npm run build
+
+# 3. Copy fresh assets to plugin
+cp dist/client/assets/index-*.css /path/to/jezweb-support/assets/chat-app.css
+cp dist/client/assets/index-*.js /path/to/jezweb-support/assets/chat-app.js
+
+# 4. Reload WordPress admin to see changes
+# (Hard refresh: Ctrl+Shift+R or Cmd+Shift+R)
+```
+
+**Note**: The React app detects when it's running in WordPress via `window.wpData` and automatically:
+- Uses WordPress site URL instead of manual input
+- Hides the site URL selector
+- Displays site name in header
+- Uses WordPress-configured worker URL
 
 ## Roadmap
 

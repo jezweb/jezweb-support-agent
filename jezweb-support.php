@@ -49,6 +49,7 @@ class Jezweb_Support_Agent {
 
         if (is_admin()) {
             require_once JEZWEB_SUPPORT_PLUGIN_DIR . 'admin/settings-page.php';
+            require_once JEZWEB_SUPPORT_PLUGIN_DIR . 'admin/ai-chat-page.php';
         }
     }
 

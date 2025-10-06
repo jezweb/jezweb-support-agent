@@ -38,6 +38,14 @@ function jezweb_support_render_settings_page() {
             </div>
         <?php endif; ?>
 
+        <div style="background: #2271b1; color: white; padding: 20px; margin: 20px 0; border-radius: 5px;">
+            <h2 style="color: white; margin-top: 0;">🤖 AI Support Chat</h2>
+            <p style="margin: 10px 0;">Need help with your WordPress site? Our AI assistant can guide you!</p>
+            <a href="<?php echo admin_url('admin.php?page=jezweb-ai-chat'); ?>" class="button button-large" style="background: white; color: #2271b1; border: none; margin-top: 10px;">
+                💬 Open AI Support Chat
+            </a>
+        </div>
+
         <div style="background: white; padding: 20px; margin-top: 20px; border: 1px solid #ccc; border-radius: 5px;">
             <h2>Configuration</h2>
             <form method="post" action="options.php">
