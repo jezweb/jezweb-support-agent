@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Jezweb Support Agent
  * Plugin URI: https://jezweb.com.au
- * Description: Exposes WordPress and Elementor data for AI-powered support assistance
- * Version: 1.1.0
+ * Description: Exposes WordPress and Elementor data for AI-powered support assistance with AI chat
+ * Version: 1.2.0
  * Author: Jezweb
  * Author URI: https://jezweb.com.au
  * License: GPL v2 or later
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('JEZWEB_SUPPORT_VERSION', '1.1.0');
+define('JEZWEB_SUPPORT_VERSION', '1.2.0');
 define('JEZWEB_SUPPORT_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('JEZWEB_SUPPORT_PLUGIN_URL', plugin_dir_url(__FILE__));
 
@@ -51,6 +51,26 @@ class Jezweb_Support_Agent {
             require_once JEZWEB_SUPPORT_PLUGIN_DIR . 'admin/settings-page.php';
             require_once JEZWEB_SUPPORT_PLUGIN_DIR . 'admin/ai-chat-page.php';
         }
+
+        // Load plugin update checker
+        require_once JEZWEB_SUPPORT_PLUGIN_DIR . 'lib/plugin-update-checker/plugin-update-checker.php';
+        $this->init_update_checker();
+    }
+
+    /**
+     * Initialize plugin update checker
+     */
+    private function init_update_checker() {
+        use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+        $updateChecker = PucFactory::buildUpdateChecker(
+            'https://github.com/jezweb/jezweb-support-agent',
+            __FILE__,
+            'jezweb-support'
+        );
+
+        // Optional: Set the branch to track for updates
+        $updateChecker->setBranch('main');
     }
 
     /**
@@ -59,7 +79,7 @@ class Jezweb_Support_Agent {
     private function init_hooks() {
         add_action('rest_api_init', array($this, 'register_rest_routes'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
-        add_action('wp_footer', array($this, 'render_chat_widget'));
+        add_action('admin_bar_menu', array($this, 'add_admin_bar_menu'), 100);
     }
 
     /**
@@ -98,15 +118,21 @@ class Jezweb_Support_Agent {
     }
 
     /**
-     * Render chat widget
+     * Add admin bar menu link
      */
-    public function render_chat_widget() {
+    public function add_admin_bar_menu($wp_admin_bar) {
         if (!current_user_can('edit_posts')) {
             return;
         }
 
-        $chat_widget = new Jezweb_Support_Chat_Widget();
-        $chat_widget->render();
+        $wp_admin_bar->add_node(array(
+            'id'    => 'jezweb-ai-support',
+            'title' => '💬 AI Support',
+            'href'  => admin_url('admin.php?page=jezweb-ai-chat'),
+            'meta'  => array(
+                'title' => 'AI Support Assistant',
+            ),
+        ));
     }
 }
 
