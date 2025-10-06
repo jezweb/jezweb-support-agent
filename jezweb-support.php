@@ -3,7 +3,7 @@
  * Plugin Name: Jezweb Support Agent
  * Plugin URI: https://jezweb.com.au
  * Description: Exposes WordPress and Elementor data for AI-powered support assistance with AI chat
- * Version: 1.4.1
+ * Version: 1.4.2
  * Author: Jezweb
  * Author URI: https://jezweb.com.au
  * License: GPL v2 or later
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('JEZWEB_SUPPORT_VERSION', '1.4.1');
+define('JEZWEB_SUPPORT_VERSION', '1.4.2');
 define('JEZWEB_SUPPORT_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('JEZWEB_SUPPORT_PLUGIN_URL', plugin_dir_url(__FILE__));
 
