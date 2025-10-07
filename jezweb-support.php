@@ -3,7 +3,7 @@
  * Plugin Name: Jezweb Support Agent
  * Plugin URI: https://jezweb.com.au
  * Description: Exposes WordPress and Elementor data for AI-powered support assistance with AI chat
- * Version: 1.4.2
+ * Version: 1.5.0
  * Author: Jezweb
  * Author URI: https://jezweb.com.au
  * License: GPL v2 or later
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('JEZWEB_SUPPORT_VERSION', '1.4.2');
+define('JEZWEB_SUPPORT_VERSION', '1.5.0');
 define('JEZWEB_SUPPORT_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('JEZWEB_SUPPORT_PLUGIN_URL', plugin_dir_url(__FILE__));
 
@@ -51,24 +51,6 @@ class Jezweb_Support_Agent {
             require_once JEZWEB_SUPPORT_PLUGIN_DIR . 'admin/settings-page.php';
             require_once JEZWEB_SUPPORT_PLUGIN_DIR . 'admin/ai-chat-page.php';
         }
-
-        // Load plugin update checker
-        require_once JEZWEB_SUPPORT_PLUGIN_DIR . 'lib/plugin-update-checker/plugin-update-checker.php';
-        $this->init_update_checker();
-    }
-
-    /**
-     * Initialize plugin update checker
-     */
-    private function init_update_checker() {
-        $updateChecker = YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
-            'https://github.com/jezweb/jezweb-support-agent',
-            __FILE__,
-            'jezweb-support'
-        );
-
-        // Optional: Set the branch to track for updates
-        $updateChecker->setBranch('main');
     }
 
     /**
